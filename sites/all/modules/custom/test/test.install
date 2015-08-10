@@ -1,0 +1,162 @@
+<?php 
+/**
+ * Implements hook_schema().
+ *
+ * @return array
+ * @see hook_schema_alter()
+ */
+
+function test_schema(){
+	$schema = array();
+	$schema['program'] = array(
+		'description'=> t('Program for product'),
+		'fields'	 => array(
+			'id' => array(
+					'description'=> 'id unique for program', 
+					'type' 		 => 'serial',
+			        'unsigned' 	 => TRUE,
+			        'not null' 	 => TRUE,
+				),
+			'name'=> array(
+					'description'=> 'Name of program',
+					'type' 		 => 'varchar',
+			        'length' 	 => 255,
+			        'not null' 	 => TRUE,
+			        'default' 	 => '',
+				),
+			'value'=> array(
+					'description'=> 'value in real number',
+					'type' 		 => 'int',
+			        'unsigned' 	 => TRUE,
+			        'not null' 	 => TRUE,
+			        'default' 	 => 0,
+				),
+			),
+		'primary key' => array('id'),
+	);
+
+	$schema['freight'] = array(
+		'description'=> t('freight for product'),
+		'fields' 	 => array(
+			'code' => array(
+				'description' => 'code freight',
+				'type' 		  => 'int', 
+				'unsigned' 	 => TRUE,
+		        'not null' 	 => TRUE,
+		        'default' 	 => 0,
+			),
+			'value' => array(
+				'description' => 'value for freight',
+				'type'		  => 'int', 
+				'unsigned' 	  => TRUE,
+		        'not null' 	  => TRUE,
+		        'default' 	  => 0,
+			),
+		),
+		'primary key' => array('code'),
+	);
+
+	$schema['product'] = array(
+		'description' => t('Table for products'),
+		'fields'	  => array(
+			'sku' =>array(
+				'description' => 'Code sku for product',
+				'type' 		 => 'varchar',
+		        'length' 	 => 255,
+		        'not null' 	 => TRUE,
+			),
+			'name'=>array(
+				'description'=> 'name for product',
+				'type' 		 => 'varchar',
+		        'length' 	 => 255,
+		        'not null' 	 => TRUE,
+		        'default' 	 => '',
+			),
+			'cost'=> array(
+				'description'=> 'cost of product',
+				'type' 		 => 'int',
+		        'unsigned' 	 => TRUE,
+		        'not null' 	 => TRUE,
+		        'default' 	 => 0,
+			),
+			'frid'=> array(
+				'description'=> 'type of freight {freight}',
+				'type'		 => 'int',
+				'unsigned' 	 => TRUE,
+		        'not null' 	 => TRUE,
+		        'default' 	 => 0,
+			),
+			'pid'=> array(
+				'description'=> 'type of program {program}',
+				'type'		 => 'int',
+				'unsigned' 	 => TRUE,
+		        'not null' 	 => TRUE,
+		        'default' 	 => 0,
+			),
+			
+			'category'=> array(
+				'description'=> 'Category',
+				'type'		 => 'int', 
+				'length'	 => 255,
+				'not null'	 => TRUE,
+				'default'	 => 0,
+			),
+			'sale_price'=>array(
+				'description'=> 'sale price',
+				'type'		 => 'int',
+				'unsigned'	 => TRUE,
+				'not null'	 => TRUE,
+				'default'	 => 0,
+			),
+			'finish_price'=>array(
+				'description'=> 'finish price',
+				'type'		 => 'int',
+				'unsigned'	 => TRUE,
+				'not null'	 => TRUE,
+				'default'	 => 0,
+			),
+			'price_point' => array(
+				'description'=> 'price calculated from combination fields',
+				'type'		 => 'float',
+				'unsigned'	 => TRUE,
+				'not null'	 => TRUE,
+				'default'	 => 0,
+			),
+		),
+		'primary key' => array('sku'),
+		'foreign keys'=> array(
+	      'product_freight' => array(
+	        'table' 		=> 'freight',
+	        'columns' 		=> array('frid' => 'code'),
+		   ),
+	      'product_program' => array(
+	        'table' 		=> 'program',
+	        'columns' 		=> array('pid' => 'id'),
+		   ),
+	   )
+	);
+	return $schema;
+}
+
+function test_install() {
+	drupal_install_schema('test');
+	//Create field entity  category 
+	$new_vocab = (object) array(
+	    'name' => 'Category',
+	    'description' => 'This vocabulary has a special category',
+	    'machine_name' => 'category',
+  	);
+	taxonomy_vocabulary_save($new_vocab);
+}
+
+
+/**
+ * Implements hook_uninstall().
+ * @see hook_uninstall()
+ */
+function test_uninstall() {
+  drupal_uninstall_schema('test');
+}
+
+
+?>

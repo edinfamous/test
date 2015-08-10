@@ -1,0 +1,9 @@
+; $Id$
+name = Test  module
+description = Module custom for TEST
+dependencies[] = views
+dependencies[] = ckeditor
+package = TEST
+version = 0.01
+core = 7.x
+files[] = test.module

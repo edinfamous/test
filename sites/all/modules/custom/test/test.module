@@ -1,0 +1,62 @@
+<?php 
+/**
+ * Implementa hook_entity_info().
+ * @see hook_entity_info()
+ */
+function test_entity_info() {
+	$info = array();
+	$info['program'] = array(
+		'label' => t('program'),
+		'base table' => 'program',
+		'entity class' => 'Entity',
+		'controller class' => 'EntityAPIController',
+		'entity keys' => array(
+		  'id' => 'id',
+		),
+		'module' => 'test',
+	);
+
+	$info['freight'] = array(
+		'label' => t('freight'),
+		'base table' => 'freight',
+		'entity class' => 'Entity',
+		'controller class' => 'EntityAPIController',
+		'entity keys' => array(
+		  'code' => 'code',
+		),
+		'module' => 'test',
+	);
+
+	$info['product'] = array(
+		'label' => t('product'),
+		'base table' => 'product',
+		'entity class' => 'Entity',
+		'controller class' => 'EntityAPIController',
+		'entity keys' => array(
+		  'sku' => 'sku',
+		),
+		'module' => 'test',
+	);
+
+  return $info;
+}
+
+/**
+* 
+* Implements hooK_menu()
+*
+*/
+function test_menu(){
+	$items['node/add/product'] = array(
+		'title' => t('Create product'),
+	    'description' => t('Form for create products'),
+	    'page callback' => 'drupal_get_form',
+	    'page arguments' => array('_test_product'),
+	    'access arguments' => array('administer onthisdate settings'),
+	    'file'=> 'inc/test.pages.inc',
+	    'type' => MENU_NORMAL_ITEM,
+	);
+	return $items;
+}
+
+?>
