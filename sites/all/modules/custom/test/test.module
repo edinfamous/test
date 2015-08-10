@@ -47,7 +47,16 @@ function test_entity_info() {
 *
 */
 function test_menu(){
-	$items['node/add/product'] = array(
+	$items['admin/test'] = array(
+		'title' => 'Test',
+	    'description' => 'Select options.',
+	    'page callback' => '_list_items',
+	    'access arguments' => array('administer onthisdate settings'),
+	    'position' => 'left',
+	    'weight' => -6,
+	    'file' => 'test.pages.inc',
+	);
+	$items['admin/test/add/product'] = array(
 		'title' => t('Create product'),
 	    'description' => t('Form for create products'),
 	    'page callback' => 'drupal_get_form',
@@ -56,7 +65,91 @@ function test_menu(){
 	    'file'=> 'inc/test.pages.inc',
 	    'type' => MENU_NORMAL_ITEM,
 	);
+
+	$items['admin/test/edit/product/%'] = array(
+		'title' => t('Edit product'),
+	    'description' => t('Form for edit product'),
+	    'page callback' => '_test_product_edit',
+	    'page arguments' => array(1),
+	    'access arguments' => array('administer onthisdate settings'),
+	    'file'=> 'inc/test.pages.inc',
+	    'type' => MENU_NORMAL_ITEM,
+	);
+
+	$items['admin/test/add/program'] = array(
+		'title' => t('Create program'),
+	    'description' => t('Form for create program'),
+	    'page callback' => 'drupal_get_form',
+	    'page arguments' => array('_test_program'),
+	    'access arguments' => array('administer onthisdate settings'),
+	    'file'=> 'inc/test.pages.inc',
+	    'type' => MENU_NORMAL_ITEM,
+	);
+	$items['admin/test/edit/program/%'] = array(
+		'title' => t('Edit program'),
+	    'description' => t('Form for edit program'),
+	    'page callback' => '_test_program_edit',
+	    'page arguments' => array(1),
+	    'access arguments' => array('administer onthisdate settings'),
+	    'file'=> 'inc/test.pages.inc',
+	    'type' => MENU_NORMAL_ITEM,
+	);
+	$items['admin/test/freight/list'] = array(
+	    'title' => 'List',
+	    'type' => MENU_NORMAL_ITEM,
+	    'weight' => -10,
+	);
+	$items['admin/test/freight/add'] = array(
+		'title' => t('Create freight'),
+	    'description' => t('Form for create freight'),
+	    'page callback' => 'drupal_get_form',
+	    'page arguments' => array('_test_freight'),
+	    'access arguments' => array('administer onthisdate settings'),
+	    'file'=> 'inc/test.pages.inc',
+	    'type' => MENU_NORMAL_ITEM,
+	);
+	$items['admin/test/freight/edit/%'] = array(
+		'title' => t('Edit freight'),
+	    'description' => t('Form for edit freight'),
+	    'page callback' => '_edit_test_freight',
+	    'page arguments' => array(1),
+	    'access arguments' => array('administer onthisdate settings'),
+	    'file'=> 'inc/test.pages.inc',
+	    'type' => MENU_NORMAL_ITEM,
+	);
 	return $items;
 }
 
+###### FUNCTIONS CUSTOM ######
+
+function _get_program(){
+	$query = db_select('program', 'p');
+	$query-> fields('p', array('id', 'value', 'name'));
+	$result = $query->execute();
+
+    while($record = $result->fetchAssoc()) {
+        $arrayDatos[]= array(
+	        	'value'=>$record['value'],
+	        	'id'=> $record['id'],
+	        	'name'=> $record['name'],
+        	);
+
+    }
+    return $arrayDatos;
+}
+
+function _get_freight(){
+	$query = db_select('freight', 'f');
+	$query-> fields('f', array('code', 'value'));
+	$result = $query->execute();
+
+    while($record = $result->fetchAssoc()) {
+        $arrayDatos[]= array(
+	        	'value'=>$record['value'],
+	        	'code'=> $record['code']
+        	);
+
+    }
+    return $arrayDatos;
+}
 ?>
