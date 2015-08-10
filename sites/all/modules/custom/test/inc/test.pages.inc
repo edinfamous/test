@@ -66,7 +66,6 @@
 	      '#default_value' => '',
 	      '#size' 	  => 60,
 	      '#maxlength'=> 128,
-	      '#required' => TRUE,
 	      '#attributes' => array('readonly' => 'readonly'),
 		);
 		$freight = _get_freight();
@@ -84,7 +83,6 @@
 			'#type' 	  => 'textfield',
 			'#title'    => t('Finish price'),
 			'#title'  => t('Freight'),
-			'#required'=> TRUE,
 			'#attributes' => array('readonly' => 'readonly'),	
 		);
     	$form['#submit'][] = '_test_product_save';
