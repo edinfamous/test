@@ -173,8 +173,25 @@ function _get_sku($sku){
 
 function _get_cost_freight($freight){
 	$query = db_select('freight', 'f');
+	$query-> fields('f', array('value'))
+	      ->condition('f.code', $freight, '=');
+	$result = $query->execute();
+
+    while($record = $result->fetchAssoc()) {
+        $arrayDatos= array(
+	        	'value'=>$record['value'],
+        	);
+    }
+    if(!empty($arrayDatos)){
+    	return $arrayDatos;
+    }else{
+    	return 0;
+    }
+}
+function _get_value_point($id){
+	$query = db_select('program', 'p');
 	$query-> fields('p', array('value'))
-	      ->condition('p.code', $freight, '=');
+	      ->condition('p.id', $id, '=');
 	$result = $query->execute();
 
     while($record = $result->fetchAssoc()) {

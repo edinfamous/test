@@ -267,7 +267,7 @@
 			'pid' =>(int)$form_state['values']['program'],
 			'category'=>(int)$form_state['values']['category'],
 			'sale_price'=>(int)$form_state['values']['sale_price'],
-			'price_point'=>(int)$form_state['values']['point_price'],
+			'price_point'=>(int)(((int)$form_state['values']['sale_price'] + _get_cost_freight($form_state['values']['type_freigth'])[0])/_get_value_point($form_state['values']['point_price'])[0],
 			'finish_price'=>(int)$form_state['values']['sale_price'] + _get_cost_freight($form_state['values']['type_freigth'])[0],
 				)
 			)
