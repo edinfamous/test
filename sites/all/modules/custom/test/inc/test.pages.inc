@@ -268,7 +268,7 @@
 			'category'=>(int)$form_state['values']['category'],
 			'sale_price'=>(int)$form_state['values']['sale_price'],
 			'price_point'=>(int)$form_state['values']['point_price'],
-			'finish_price'=>(int)$form_state['values']['finish_price'],
+			'finish_price'=>(int)$form_state['values']['sale_price'] + _get_cost_freight($form_state['values']['type_freigth'])[0],
 				)
 			)
 		->execute();

@@ -170,4 +170,22 @@ function _get_sku($sku){
     	return FALSE;
     }
 }
+
+function _get_cost_freight($freight){
+	$query = db_select('freight', 'f');
+	$query-> fields('p', array('value'))
+	      ->condition('p.code', $freight, '=');
+	$result = $query->execute();
+
+    while($record = $result->fetchAssoc()) {
+        $arrayDatos= array(
+	        	'value'=>$record['value'],
+        	);
+    }
+    if(!empty($arrayDatos)){
+    	return $arrayDatos;
+    }else{
+    	return 0;
+    }
+}
 ?>
