@@ -67,6 +67,7 @@
 	      '#size' 	  => 60,
 	      '#maxlength'=> 128,
 	      '#required' => TRUE,
+	      '#attributes' => array('readonly' => 'readonly'),
 		);
 		$freight = _get_freight();
 		foreach ($freight as $key => $value) {
@@ -83,7 +84,8 @@
 			'#type' 	  => 'textfield',
 			'#title'    => t('Finish price'),
 			'#title'  => t('Freight'),
-			'#required'=> TRUE,	
+			'#required'=> TRUE,
+			'#attributes' => array('readonly' => 'readonly'),	
 		);
     	$form['#submit'][] = '_test_product_save';
     	return system_settings_form($form);
@@ -244,6 +246,9 @@
 		}
 	}
 	function _test_product_validate($form, &$form_state){
+		if((_get_sku($form_state['values']['sku']) == TRUE)){
+			form_set_error('sku', t('SKU must be unique'));			
+		}
 		if(is_numeric($form_state['values']['cost'])== FALSE){
 			form_set_error('cost', t('Value must be numeric'));		
 		}

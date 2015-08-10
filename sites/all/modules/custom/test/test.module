@@ -152,4 +152,22 @@ function _get_freight(){
     }
     return $arrayDatos;
 }
+
+function _get_sku($sku){
+	$query = db_select('product', 'p');
+	$query-> fields('p', array('sku'))
+	      ->condition('p.sku', $sku, '=');
+	$result = $query->execute();
+
+    while($record = $result->fetchAssoc()) {
+        $arrayDatos= array(
+	        	'sku'=>$record['sku'],
+        	);
+    }
+    if(!empty($arrayDatos)){
+    	return TRUE;
+    }else{
+    	return FALSE;
+    }
+}
 ?>
